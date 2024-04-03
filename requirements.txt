@@ -1,0 +1,9 @@
+streamlit
+pandas
+seaborn
+matplotlib
+Pillow
+textblob==0.18.0.post0
+bing_image_urls==0.1.5
+scikit-learn==1.4.0
+numpy==1.26.3

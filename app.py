@@ -185,7 +185,7 @@ def run():
                 # Each product container
                 num = 0
                 for col in rec_col:
-                    box = col.container(border = True, height = 500)
+                    box = col.container(border = True)
                     box.write(f"##### {df_recommendation['brand'].iloc[num]}")
                     if len(df_recommendation['name'].iloc[num]) > 35:
                         box.write(f"{df_recommendation['name'].iloc[num][:32] + '...'}")

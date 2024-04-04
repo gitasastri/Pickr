@@ -111,7 +111,6 @@ def run():
 
         # When search button is clicked
         if submitted:
-
             # Filtering from user filter input
             df_filter = df[(df['price'] >= price_filter_down) & (df['price'] <= price_filter_up) &
                         (df['rating'] >= rating_filter) & (df['new_category'].isin(category_filter)) & 
@@ -124,12 +123,15 @@ def run():
 
             # If filter returns 1 or more data
             else: 
+                # If query is blank
                 if len(query) == 0:
-                    recommendation_index = df_filter.iloc[0:8].index
+                    df_recommendation = df_filter.sample(min(len(df_filter), 8))
+
+                # If query is not blank
                 else:
                     # TF-IDF transform df results
                     tfidf_df_filter = tfidf_df.transform(df_filter['preprocessing_brand_details_category'])
-                    
+
                     # Lowercase query
                     query = query.lower()
 
@@ -152,13 +154,15 @@ def run():
                         else:
                             pass
             
-            # If all cosine similarity fall under 0.1
-            if len(recommendation_index) == 0:
-                st.write('Sorry, no products matched your request. Try other keywords or use filters on the left side of this page.')
-            # If products with cosine similarity > 0.1 present
-            else:
-                # Show data of recommended products
-                df_recommendation = df_filter.iloc[recommendation_index]
+                    # If all cosine similarity fall under 0.1
+                    if len(recommendation_index) == 0:
+                        st.write('Sorry, no products matched your request. Try other keywords or use filters on the left side of this page.')
+                    
+                    # If products with cosine similarity > 0.1 present
+                    else:
+                        # Show data of recommended products
+                        df_recommendation = df_filter.iloc[recommendation_index]
+            
                 df_recommendation['url_image'] = 'https://st4.depositphotos.com/14953852/24787/v/450/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg'
 
                 # Fetch image URL, save to new column
